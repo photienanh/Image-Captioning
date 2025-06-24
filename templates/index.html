@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Caption Generator</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function previewImage(event) {
+            // Xóa kết quả cũ
+            const resultDiv = document.getElementById('resultDiv');
+            if (resultDiv) {
+                resultDiv.style.display = 'none';
+            }
+            
+            // Xóa ảnh server-side cũ
+            const serverImage = document.getElementById('serverImage');
+            if (serverImage) {
+                serverImage.style.display = 'none';
+            }
+            
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imageContainer').style.display = 'block';
+                    document.getElementById('predictBtn').style.display = 'inline-block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imageContainer').style.display = 'none';
+            }
+        }
+        
+        function showLoading() {
+            document.getElementById('loadingDiv').style.display = 'block';
+            document.getElementById('predictBtn').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>🖼️ Image Caption Generator</h1>
+    
+    <div class="upload-container">
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
+            <label for="image" class="upload-label">📁 Chọn ảnh từ thư mục:</label>
+            <input type="file" name="image" id="image" class="file-input" accept="image/*" onchange="previewImage(event)" required>
+            
+            <!-- Preview ảnh mới chọn -->
+            <div id="imageContainer" class="image-preview" style="display: none;">
+                <img id="imagePreview" alt="Preview">
+                <br>
+                <button type="submit" name="predict" id="predictBtn" style="display: none;">🤖 Predict Caption</button>
+                
+                <div id="loadingDiv" class="loading">
+                    <div class="spinner"></div>
+                    Đang phân tích ảnh...
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Ảnh từ server (sau khi predict) -->
+    {% if image_base64 %}
+    <div id="serverImage" class="image-preview">
+        <img src="data:image/jpeg;base64,{{ image_base64 }}" alt="Uploaded Image">
+    </div>
+    {% endif %}
+    
+    <!-- Kết quả caption -->
+    {% if response %}
+    <div id="resultDiv" class="result">
+        <h3>📝 Caption được tạo:</h3>
+        <p>{{ response }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
