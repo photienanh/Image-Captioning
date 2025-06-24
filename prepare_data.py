@@ -1,7 +1,6 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
 import pickle
-import numpy as np
 
 class CaptionDataset(Dataset):
     def __init__(self, features_path, captions_path):
