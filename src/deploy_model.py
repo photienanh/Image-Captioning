@@ -4,13 +4,13 @@ from model import Encoder, DecoderTransformer
 from PIL import Image
 from torchvision import transforms
 
-def load_model_and_utils(model_path='Models/caption_model.pth'):
+def load_model_and_utils(model_path='../Models/caption_model.pth'):
     # Load word mappings
-    with open('Processed Data/word_to_index.pkl', 'rb') as f:
+    with open('../Processed Data/word_to_index.pkl', 'rb') as f:
         word_to_index = pickle.load(f)
-    with open('Processed Data/index_to_word.pkl', 'rb') as f:
+    with open('../Processed Data/index_to_word.pkl', 'rb') as f:
         index_to_word = pickle.load(f)
-    with open('Processed Data/embedding_matrix.pkl', 'rb') as f:
+    with open('../Processed Data/embedding_matrix.pkl', 'rb') as f:
         embedding_matrix = pickle.load(f)
 
     vocab_size = len(word_to_index)

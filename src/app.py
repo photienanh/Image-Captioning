@@ -4,7 +4,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 encoder, decoder, word_to_index, index_to_word, transform, device = load_model_and_utils()
 
@@ -29,3 +29,6 @@ def index():
                 image_bytes, encoder, decoder, word_to_index, index_to_word, transform, device
             )
     return render_template('index.html', response=response, image_base64=image_base64)
+
+if __name__ == '__main__':
+    app.run(debug=True)
