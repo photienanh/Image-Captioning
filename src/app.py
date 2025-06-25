@@ -29,6 +29,3 @@ def index():
                 image_bytes, encoder, decoder, word_to_index, index_to_word, transform, device
             )
     return render_template('index.html', response=response, image_base64=image_base64)
-
-if __name__ == '__main__':
-    app.run(debug=True)
